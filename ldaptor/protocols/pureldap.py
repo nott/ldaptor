@@ -1125,6 +1125,11 @@ class LDAPModifyDNResponse(LDAPResult):
 #class LDAPCompareResponse(LDAPProtocolResponse):
 #class LDAPCompareRequest(LDAPProtocolRequest):
 
+class LDAPBERDecoderContext_LDAPAbandonRequest(BERDecoderContext):
+    Identities = {
+        CLASS_CONTEXT|0x50: BEROctetString,
+        }
+
 class LDAPAbandonRequest(LDAPProtocolRequest, LDAPInteger):
     tag = CLASS_APPLICATION|0x10
     needs_answer=0
@@ -1196,6 +1201,7 @@ class LDAPExtendedRequest(LDAPProtocolRequest, BERSequence):
         BERSequence.__init__(self, [], tag=tag)
         assert requestName is not None
         assert isinstance(requestName, basestring)
+        assert requestValue is None or isinstance(requestValue, basestring)
         self.requestName=requestName
         self.requestValue=requestValue
 
